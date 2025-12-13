@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribuciones
+dist/
+build/
+*.egg-info/
+*.egg
+
+# AppImage
+*.AppImage
+appdir/
+AppDir/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+.desktop
+
+# Archivos temporales
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+
+# Logs
+*.log
+logs/
+
+# Configuración local
+config.json
+settings.json
+
+# PyInstaller
+*.spec
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm
+.idea/
+*.iml
+
+# Otros
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
