@@ -1,16 +1,96 @@
-# 🌙 Moonlight - Monitor de Sistema para Gaming
+# Moonlight Monitor
 
-Aplicación ligera para monitorear recursos del sistema mientras juegas en CachyOS.
+Moonlight Monitor is a lightweight desktop utility designed to monitor and manage Moonlight-related activity on Linux systems. The project is structured to follow standard Linux filesystem conventions and supports installation as a system package.
 
-## 🚀 Instalación Rápida
+## Features
 
-### Método 1: Script Python (Recomendado)
+* System-wide installation using standard Linux directories
+* Desktop launcher integration
+* Application icon support
+* Simple command-line entry point
+* Clean and minimal Python-based implementation
+
+## Project Structure
+
+```
+moonlight-monitor/
+├── DEBIAN/
+│   └── control
+├── opt/
+│   └── moonlight-monitor/
+│       └── moonlight.py
+├── usr/
+│   ├── bin/
+│   │   └── moonlight
+│   ├── share/
+│   │   ├── applications/
+│   │   │   └── moonlight.desktop
+│   │   └── icons/
+│   │       └── hicolor/
+│   │           └── 256x256/
+│   │               └── apps/
+│   │                   └── logo.png
+└── install.sh
+```
+
+## Requirements
+
+* Linux-based operating system
+* Python 3.9 or newer
+* Desktop environment with `.desktop` file support
+
+## Installation
+
+### Using the install script
+
+Clone the repository and run:
+
 ```bash
-# Clona o descarga la carpeta
-cd ~/Descargas/moonlight
+chmod +x install.sh
+sudo ./install.sh
+```
 
-# Dale permisos
-chmod +x install.sh moonlight.py
+### Manual installation (advanced)
 
-# Instala
-./install.sh
+Copy files to their respective locations:
+
+* Application code: `/opt/moonlight-monitor/`
+* Executable: `/usr/bin/moonlight`
+* Desktop entry: `/usr/share/applications/moonlight.desktop`
+* Icon: `/usr/share/icons/hicolor/256x256/apps/logo.png`
+
+## Usage
+
+After installation, you can launch Moonlight Monitor in two ways:
+
+* From your desktop application menu
+* From the terminal:
+
+```bash
+moonlight
+```
+
+## Development
+
+To contribute or modify the project:
+
+```bash
+git clone https://github.com/<your-username>/moonlight-monitor.git
+cd moonlight-monitor
+```
+
+Make your changes, then commit and push them following standard Git workflows.
+
+## Packaging Notes
+
+This repository includes a `DEBIAN/control` file intended for `.deb` package creation. Generated packages (`.deb`) should not be committed to the repository.
+
+For Arch-based systems, a separate `PKGBUILD` is recommended.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Disclaimer
+
+Moonlight Monitor is an independent project and is not officially affiliated with the Moonlight project or its maintainers.
