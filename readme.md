@@ -75,17 +75,11 @@ moonlight
 To contribute or modify the project:
 
 ```bash
-git clone https://github.com/<your-username>/moonlight-monitor.git
+git clone https://github.com/sedsujim/moonlight-monitor.git
 cd moonlight-monitor
 ```
 
 Make your changes, then commit and push them following standard Git workflows.
-
-## Packaging Notes
-
-This repository includes a `DEBIAN/control` file intended for `.deb` package creation. Generated packages (`.deb`) should not be committed to the repository.
-
-For Arch-based systems, a separate `PKGBUILD` is recommended.
 
 ## License
 
