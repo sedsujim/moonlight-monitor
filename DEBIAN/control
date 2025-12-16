@@ -1,0 +1,10 @@
+Package: moonlight-monitor
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: python3, python3-psutil, python3-pyside6
+Maintainer: Sedsujim
+Description: Lightweight and modern system resource monitor
+ Moonlight Monitor is a simple and low-resource system monitor
+ with a modern interface built using PySide6.

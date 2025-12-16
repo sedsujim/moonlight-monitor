@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Moonlight Monitor
+Comment=Lightweight system resource monitor
+Exec=moonlight
+Icon=moonlight
+Terminal=false
+Categories=System;Monitor;
+StartupNotify=false

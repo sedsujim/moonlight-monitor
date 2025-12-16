@@ -1,71 +1,72 @@
-#!/bin/bash
-# install.sh - Instala Moonlight como aplicación
+#!/usr/bin/env bash
 
-echo "🌙 Instalando Moonlight Monitor..."
-echo "=================================="
+set -e
 
-# Verificar si estamos en la carpeta correcta
-if [ ! -f "moonlight.py" ]; then
-    echo "❌ Error: No encuentro moonlight.py"
-    echo "Ejecuta este script desde la carpeta de Moonlight"
+APP_NAME="moonlight-monitor"
+BIN_NAME="moonlight"
+INSTALL_DIR="/opt/moonlight-monitor"
+BIN_DIR="/usr/bin"
+DESKTOP_DIR="/usr/share/applications"
+ICON_DIR="/usr/share/icons/hicolor/256x256/apps"
+
+echo "🌙 Installing Moonlight Monitor..."
+
+if [[ $EUID -ne 0 ]]; then
+    echo "Please run as root (sudo ./install.sh)"
     exit 1
 fi
 
-# Obtener ruta absoluta
-SCRIPT_PATH="$(pwd)/moonlight.py"
-echo "📁 Ruta del script: $SCRIPT_PATH"
+echo "→ Checking dependencies..."
 
-# Instalar dependencias
-echo "📦 Instalando dependencias..."
-sudo pacman -S --noconfirm python python-psutil python-tk
-
-# Para GPU NVIDIA (opcional)
-read -p "¿Tienes GPU NVIDIA? [s/N]: " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Ss]$ ]]; then
-    echo "🎮 Instalando soporte para NVIDIA..."
-    sudo pacman -S --noconfirm nvidia-utils
+if ! command -v python3 >/dev/null; then
+    echo "Python3 is required"
+    exit 1
 fi
 
-# Dar permisos
-chmod +x "$SCRIPT_PATH"
+if ! python3 -c "import PySide6" >/dev/null 2>&1; then
+    echo "PySide6 is not installed"
+    echo "Arch: sudo pacman -S pyside6"
+    echo "Debian/Ubuntu: sudo apt install python3-pyside6"
+    exit 1
+fi
 
-# Crear directorio para .desktop
-mkdir -p ~/.local/share/applications
+if ! python3 -c "import psutil" >/dev/null 2>&1; then
+    echo "psutil is not installed"
+    echo "Arch: sudo pacman -S python-psutil"
+    echo "Debian/Ubuntu: sudo apt install python3-psutil"
+    exit 1
+fi
 
-# Crear archivo .desktop CON LA RUTA CORRECTA
-DESKTOP_FILE="$HOME/.local/share/applications/moonlight.desktop"
-echo "📋 Creando acceso directo en: $DESKTOP_FILE"
+echo "→ Installing files..."
 
-cat > "$DESKTOP_FILE" << EOF
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Moonlight Monitor
-Comment=Monitor de sistema ligero para gaming
-Exec=python3 "$SCRIPT_PATH"
-Icon=utilities-system-monitor
-Terminal=false
-Categories=Utility;System;
-Keywords=monitor;system;gaming
-StartupNotify=false
+mkdir -p "$INSTALL_DIR"
+cp moonlight.py "$INSTALL_DIR/"
+
+cat > "$BIN_DIR/$BIN_NAME" << EOF
+#!/usr/bin/env bash
+python3 $INSTALL_DIR/moonlight.py
 EOF
 
-# Hacer el .desktop ejecutable
-chmod +x "$DESKTOP_FILE"
+chmod +x "$BIN_DIR/$BIN_NAME"
 
-echo ""
-echo "✅ ¡INSTALACIÓN COMPLETADA!"
-echo ""
-echo "🎮 Para usar Moonlight:"
-echo "   1. Busca 'Moonlight' en tu menú de aplicaciones"
-echo "   2. Haz doble clic para abrir"
-echo "   3. Usa ESC para cerrar"
-echo ""
-echo "📊 Moonlight monitorea:"
-echo "   - CPU, RAM, GPU, Temperatura"
-echo "   - Disco y Red"
-echo "   - Procesos activos"
-echo "   - Consumo propio de la app"
-echo ""
-echo "✨ ¡Listo para jugar con monitoreo completo!"
+if [[ -f moonlight.desktop ]]; then
+    cp moonlight.desktop "$DESKTOP_DIR/"
+fi
+
+if [[ -f icon.png ]]; then
+    mkdir -p "$ICON_DIR"
+    cp icon.png "$ICON_DIR/moonlight.png"
+fi
+
+echo "→ Updating desktop database..."
+if command -v update-desktop-database >/dev/null; then
+    update-desktop-database "$DESKTOP_DIR" || true
+fi
+
+echo
+echo "✅ Moonlight Monitor installed successfully"
+echo
+echo "• Run from terminal: moonlight"
+echo "• Or search 'Moonlight Monitor' in your app launcher"
+echo
+echo "🌙 Enjoy."

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec python3 /opt/moonlight-monitor/moonlight.py
